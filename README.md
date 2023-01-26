@@ -10,3 +10,8 @@ npx expo install react-native-screens react-native-safe-area-context
 Pour la barre de navigation du bas d'écran:
 npm install @react-navigation/bottom-tabs
 
+Installation de react native elements:
+npm install @rneui/themed @rneui/base
+
+Icones :
+npx expo install @expo/vector-icons
