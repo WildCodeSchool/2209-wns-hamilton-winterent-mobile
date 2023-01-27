@@ -32,7 +32,7 @@ export default function ProfileScreen({ navigation }) {
                     </Card>
                 </View>
                 <View style={styles.updateContainer}>
-                    <ListItem containerStyle={{backgroundColor : 'rgba(255, 255, 255, 0.1)'}}  onPress={() => navigation.navigate('EditProfileScreen')}>
+                    <ListItem containerStyle={{backgroundColor : 'rgba(255, 255, 255, 0.1)', borderTopEndRadius : 16, borderTopStartRadius : 16}}  onPress={() => navigation.navigate('EditProfileScreen')}>
                         <Icon name="pencil" type="material-community" color="white"/>
                         <ListItem.Title style={styles.paragraph}>Modifier mes infos</ListItem.Title>
                         <ListItem.Chevron />
@@ -65,20 +65,20 @@ const styles = StyleSheet.create({
         flex: 0.4,
         paddingTop : 10,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     },
     infosContainer:
     {
         flex: 0.3,
         borderRadius : 16,
         // backgroundColor : 'yellow',
-        margin : 10,
+        margin : 15,
     },
     updateContainer:
     {
         flex: 0.25,
         justifyContent: 'center',
-        margin : 10,
+        margin : 30,
     },
     logoutContainer:
     {
