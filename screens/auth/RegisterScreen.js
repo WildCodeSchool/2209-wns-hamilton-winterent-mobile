@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Button, ImageBackground, Image, Text, View, StyleSheet } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import { Form } from 'react-native-form-component';
 import { Input } from '@rneui/themed';
 import { ADD_USER } from './graphql/user';
 
 export default function RegisterScreen({ navigation }) {
+  const bgImage = require('../../assets/bg_home.jpg');
+
   const [form, setForm] = useState({
     email: 'dadazd@gmail.com',
     lastname: 'dazdazd',
@@ -26,11 +28,13 @@ export default function RegisterScreen({ navigation }) {
     setForm({ ...form, lastname: e });
   };
 
+  
   const [addUser, { loading, error }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
       console.log("DATA", data)
     },
     onError: (error) => {
+      console.log(error)
   }});
 
   const onSubmit = async () => {
@@ -39,16 +43,21 @@ export default function RegisterScreen({ navigation }) {
 
   if (loading) return <Text>Chargement en cours</Text>;
   if (error) return <Text>Une erreur s'est produite</Text>;
+
   return (
     <View style={styles.container}>
-      <View>
-        {/* <ImageBackground
-          source={bgImage}
-          resizeMode="cover"
-          style={styles.bgImage}
-        > */}
+      <ImageBackground
+        source={bgImage}
+        resizeMode="cover"
+        style={styles.bgImage}
+      >
+      <View style={styles.content}>
+        <Image
+          style={styles.Logo}
+          source={require('../../assets/Logo_winterent-light.png')}
+        />
         <Text style={styles.h1}>Register</Text>
-        <Text>
+        <Text style={styles.txtLight}>
           Déjà inscrit
           <Text
             style={styles.span}
@@ -57,8 +66,8 @@ export default function RegisterScreen({ navigation }) {
             S'identifier
           </Text>{' '}
         </Text>
-        {/* </ImageBackground> */}
       </View>
+      </ImageBackground>
       <Form
         buttonText="Valider"
         buttonStyle={{ backgroundColor: '#0075FF', height: 50, margin: 30 }}
@@ -104,17 +113,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyItem: 'center',
-    alignContent: 'center',
-    alightContent: 'center',
+  },
+  content: {
     margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   h1: {
     fontSize: 34,
     fontWeight: 'bold',
+    color: 'white',
   },
   span: {
     fontSize: 16,
-    color: 'blue',
+    color: '#3FAEFF',
+  },
+  txtLight: {
+    color: 'white',
   },
   input: {
     height: 40,
@@ -124,9 +139,9 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#EEF3F5',
   },
-  tinyLogo: {
-    width: 100,
-    height: 100,
+  Logo: {
+    width: 144,
+    height: 121,
   },
   bgImage: {
     flex: 1,

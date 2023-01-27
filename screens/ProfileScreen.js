@@ -5,7 +5,6 @@ import { Icon } from "@rneui/base";
 import { ListItemContent } from "@rneui/base/dist/ListItem/ListItem.Content";
 import { white } from "color-name";
 
-
 export default function ProfileScreen({ navigation }) {
     return (
         <>
