@@ -7,23 +7,28 @@ import BookingStack from './stack/BookingStack';
 import RegisterScreen from './screens/auth/RegisterScreen';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import LoginScreen from './screens/auth/LoginScreen';
+import Reactotron from 'reactotron-react-native';
 
 const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
+
+Reactotron.log('hello rendering world');
 
 const client = new ApolloClient({
   uri: 'http://10.0.2.2:8000/graphql',
   credentials: 'include',
   cache: new InMemoryCache({
     addTypename: false, //permet d'éviter d'avoir __typename dans nos retours
-  }),
-  
+  }), 
 });
 
-console.log(client);
 export default function App() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
 
   return (
     <ApolloProvider client={client}>
@@ -33,18 +38,25 @@ export default function App() {
             <Tab.Screen
               name="ProfileStack"
               options={{ headerShown: false }}
-              component={ProfileStack}
-            />
+            >
+              {(props) => (
+                <ProfileStack {...props} user={user} setUser={setUser} />
+              )}
+            </Tab.Screen>
             <Tab.Screen name="BookingStack" component={BookingStack} />
           </Tab.Navigator>
         ) : (
           <Stack.Navigator>
+            <Stack.Screen options={{ headerShown: false }} name="LoginScreen">
+              {(props) => (
+                <LoginScreen {...props} user={user} setUser={setUser} />
+              )}
+            </Stack.Screen>
             <Stack.Screen
+              name="RegisterScreen"
               options={{ headerShown: false }}
-              name="LoginScreen"
-              component={LoginScreen}
+              component={RegisterScreen}
             />
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

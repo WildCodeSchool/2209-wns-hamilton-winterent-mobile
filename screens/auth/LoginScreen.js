@@ -1,51 +1,97 @@
 import React, { useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
 import { Button, Image, ImageBackground, Text, View, StyleSheet, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Form } from 'react-native-form-component';
 import { Input } from '@rneui/themed';
+import { LOGIN } from './graphql/user';
+import * as SecureStore from 'expo-secure-store';
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+export default function LoginScreen({ navigation, setUser }) {
+
+  const [form, setForm] = useState({
+    email: "davy@gmail.com",
+    password: "password"
+  });
+
+  const handleChangeEmail = (e) => {
+    setForm({ ...form, email: e });
+  };
+  const handleChangePassword = (e) => {
+    setForm({ ...form, password: e });
+  };
+
+const [login, { loading }] = useLazyQuery(LOGIN, {
+  async onCompleted(data) {
+      try {
+        await SecureStore.setItemAsync('user', JSON.stringify(data.login))
+        // let test = await SecureStore.getItemAsync('user')
+        // if (test){
+        //   setUser(true)
+        // }
+        setUser(data.login)
+    } catch (e) {
+        alert('Failed to save the data to the storage')
+    }
+  },
+  
+  onError(error) {
+    console.log(error.message);
+  },
+});
+
+const onSubmit = async () => {
+  await login({ variables: form });
+};
 
   const bgImage = require('../../assets/bg_home.jpg');
 
   return (
     <>
       <View style={styles.container}>
-      <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>
-          <View style={styles.content}>
-              <Image
-                style={styles.Logo}
-                source={require('../../assets/Logo_winterent-light.png')}/>
-              <Text style={styles.h1}>Login</Text>
-              <Text style={styles.txtLight}>
-                <Text
-                  style={styles.span}
-                  onPress={() => navigation.navigate('RegisterScreen')}
-                >
-                  Créer un compte
-                </Text>{' '}
-                et retouvez vos articles
-              </Text>
-          </View>
+        <ImageBackground
+          source={bgImage}
+          resizeMode="cover"
+          style={styles.bgImage}
+        >
+        <View style={styles.content}>
+          <Image
+            style={styles.Logo}
+            source={require('../../assets/Logo_winterent-light.png')}
+          />
+          <Text style={styles.h1}>Login</Text>
+          <Text style={styles.txtLight}>
+            <Text
+              style={styles.span}
+              onPress={() => navigation.navigate('RegisterScreen')}
+            >
+              Créer un compte
+            </Text>{' '}
+            et retouvez vos articles
+          </Text>
+        </View>
         </ImageBackground>
         <Form
           buttonText="Valider"
           buttonStyle={{ backgroundColor: '#0075FF', height: 50, margin: 30 }}
-          onButtonPress={() => console.log(email)}
+          onButtonPress={onSubmit}
         >
           <Input
             label="Email"
             isRequired
             placeholder="Entrez votre email"
-            value={email}
-            onChangeText={(email) => setEmail(email)}
+            value={form.email}
+            onChangeText={handleChangeEmail}
+            name="email"
           />
+
           <Input
             label="Password"
             isRequired
             placeholder="Entrez votre password"
+            value={form.password}
+            onChangeText={handleChangePassword}
             secureTextEntry={true}
           />
         </Form>
@@ -58,6 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyItem: 'center',
+    backgroundColor: 'white',
   },
   content: {
     margin: 20,
