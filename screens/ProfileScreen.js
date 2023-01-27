@@ -3,6 +3,7 @@ import { Avatar, ListItem, Button } from '@rneui/themed';
 import { Card } from '@rneui/themed';
 import { Icon } from "@rneui/base";
 import { ListItemContent } from "@rneui/base/dist/ListItem/ListItem.Content";
+import { white } from "color-name";
 
 
 export default function ProfileScreen({ navigation }) {
@@ -15,13 +16,13 @@ export default function ProfileScreen({ navigation }) {
                         rounded
                         source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
                     />
-                    <Text> nom prénom </Text>
+                    <Text style={styles.paragraph}> nom prénom </Text>
                 </View>
                 <View style={styles.infosContainer}>
                     <Card containerStyle={styles.cardElement}>
-                        <Text> email </Text>
-                        <Text> genre </Text>
-                        <Text> adresse </Text>
+                        <Text style={styles.paragraph}> email </Text>
+                        <Text style={styles.paragraph}> genre </Text>
+                        <Text style={styles.paragraph}> adresse </Text>
                     </Card>
                 </View>
                 <View style={styles.updateContainer}>
@@ -46,12 +47,13 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
     globalContainer: {
         flex: 1,
-        backgroundColor: '#26699A',
+        backgroundColor: '#040c29',
     },
     photoContainer:
     {
-        flex: 0.3,
-        backgroundColor: 'red',
+        flex: 0.4,
+        paddingTop : 10,
+        // backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -59,12 +61,13 @@ const styles = StyleSheet.create({
     {
         flex: 0.4,
         borderRadius : 16,
+        // backgroundColor : 'yellow',
+        margin : 10,
     },
     updateContainer:
     {
-        flex: 0.2,
+        flex: 0.25,
         backgroundColor: 'orange',
-        color: 'black',
         justifyContent: 'center',
         margin : 10,
     },
@@ -75,7 +78,13 @@ const styles = StyleSheet.create({
     },
     cardElement :
     {
-        flex : 1,
-        borderRadius : 6,
+        flex : 0.9,
+        borderRadius : 15,
+        backgroundColor : ' rgba(255, 255, 255, 0.1)',
+        borderColor : 'transparent',
+    },
+    paragraph :
+    {
+        color : 'white',
     }
 });
