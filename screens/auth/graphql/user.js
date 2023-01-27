@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const ADD_USER = gql`
   mutation Mutation(
@@ -31,6 +31,18 @@ export const LOGIN = gql`
         firstname
         id
       }
+    }
+  }
+`;
+
+export const USER = gql`
+  query Query($userId: ID!) {
+    user(id: $userId) {
+      id
+      email
+      firstname
+      lastname
+      password
     }
   }
 `;

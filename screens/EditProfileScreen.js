@@ -10,7 +10,6 @@ export default function EditProfileScreen() {
     email: "",
     password: "",
   });
-
   const handleSubmit = (e) => {
     console.log(form);
   };

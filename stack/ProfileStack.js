@@ -4,14 +4,12 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
-export default function ProfileStack({user, setUser}) {
+export default function ProfileStack({ user, setUser }) {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="ProfileScreen"
-        options={{ headerShown: false }}
-        component={ProfileScreen}
-      />
+      <Stack.Screen name="ProfileScreen" options={{ headerShown: false }}>
+        {(props) => <ProfileScreen {...props} user={user} setUser={setUser} />}
+      </Stack.Screen>
       <Stack.Screen
         name="EditProfileScreen"
         options={{ title: "Edition du profil" }}
