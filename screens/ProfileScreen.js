@@ -20,15 +20,26 @@ export default function ProfileScreen({ navigation }) {
                 </View>
                 <View style={styles.infosContainer}>
                     <Card containerStyle={styles.cardElement}>
-                        <Text style={styles.paragraph}> email </Text>
-                        <Text style={styles.paragraph}> genre </Text>
-                        <Text style={styles.paragraph}> adresse </Text>
+                        <View style={{flexDirection: 'row', marginVertical : 15}}>
+                            <Icon style={{marginRight : 25}} name="email-outline" type="material-community" color="white" />
+                            <Text style={styles.paragraph}> user mail </Text>
+                        </View>
+                        <Card.Divider style={{marginVertical: 5}} />
+                        <View style={{flexDirection: 'row', marginVertical : 15}}>
+                            <Icon style={{marginRight : 25}} name="map-marker-outline" type="material-community" color="white" />
+                            <Text style={styles.paragraph}> adresse </Text>
+                        </View>
                     </Card>
                 </View>
                 <View style={styles.updateContainer}>
-                    <ListItem onPress={() => navigation.navigate('EditProfileScreen')}>
-                        <Icon name="pencil" type="material-community" color="grey" />
-                        <ListItem.Title>Modifier mes infos</ListItem.Title>
+                    <ListItem containerStyle={{backgroundColor : 'rgba(255, 255, 255, 0.1)', borderTopEndRadius : 16, borderTopStartRadius : 16}}  onPress={() => navigation.navigate('EditProfileScreen')}>
+                        <Icon name="pencil" type="material-community" color="white"/>
+                        <ListItem.Title style={styles.paragraph}>Modifier mes infos</ListItem.Title>
+                        <ListItem.Chevron />
+                    </ListItem>
+                    <ListItem containerStyle={{backgroundColor : 'rgba(255, 255, 255, 0.1)'}} onPress={() => navigation.navigate('EditProfileScreen')}>
+                        <Icon name="headphones" type="material-community" color="white" />
+                        <ListItem.Title style={styles.paragraph}>Aide</ListItem.Title>
                         <ListItem.Chevron />
                     </ListItem>
                 </View>
@@ -53,23 +64,21 @@ const styles = StyleSheet.create({
     {
         flex: 0.4,
         paddingTop : 10,
-        // backgroundColor: 'red',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     },
     infosContainer:
     {
-        flex: 0.4,
+        flex: 0.3,
         borderRadius : 16,
         // backgroundColor : 'yellow',
-        margin : 10,
+        margin : 15,
     },
     updateContainer:
     {
         flex: 0.25,
-        backgroundColor: 'orange',
         justifyContent: 'center',
-        margin : 10,
+        margin : 30,
     },
     logoutContainer:
     {
@@ -80,10 +89,14 @@ const styles = StyleSheet.create({
     {
         flex : 0.9,
         borderRadius : 15,
-        backgroundColor : ' rgba(255, 255, 255, 0.1)',
+        backgroundColor : 'rgba(255, 255, 255, 0.1)',
         borderColor : 'transparent',
     },
     paragraph :
+    {
+        color : 'white',
+    },
+    icons :
     {
         color : 'white',
     }
