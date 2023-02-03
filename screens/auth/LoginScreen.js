@@ -1,15 +1,6 @@
 import React, { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import {
-  Button,
-  Image,
-  ImageBackground,
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Image, ImageBackground, Text, View, StyleSheet } from "react-native";
 import { Form } from "react-native-form-component";
 import { Input } from "@rneui/themed";
 import { LOGIN } from "./graphql/user";
@@ -48,7 +39,7 @@ export default function LoginScreen({ navigation, setUser }) {
   });
 
   const onSubmit = async () => {
-    await login({ variables: form });
+    await login({ variables: { user: form } });
   };
 
   const bgImage = require("../../assets/bg_home.jpg");

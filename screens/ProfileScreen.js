@@ -5,6 +5,7 @@ import { Icon } from "@rneui/base";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { USER } from "./auth/graphql/user";
+import * as SecureStore from "expo-secure-store";
 
 export default function ProfileScreen({ navigation, user }) {
   const [currentUser, setCurrentUser] = useState({
@@ -30,6 +31,11 @@ export default function ProfileScreen({ navigation, user }) {
       console.log(error.message);
     },
   });
+
+  const signOut = async () => {
+    SecureStore.deleteItemAsync("user");
+    await navigation.navigate("LoginScreen");
+  };
 
   useEffect(() => {
     getUserById({ variables: { userId: user.user.id } });
@@ -96,7 +102,7 @@ export default function ProfileScreen({ navigation, user }) {
           </ListItem>
         </View>
         <View style={styles.logoutContainer}>
-          <Button radius={"sm"} type="clear">
+          <Button radius={"sm"} type="clear" onPress={signOut}>
             <Icon name="logout" type="material-community" color="white" />
             Déconnexion
           </Button>

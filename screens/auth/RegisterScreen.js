@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { Button, ImageBackground, Image, Text, View, StyleSheet } from 'react-native';
-import { useMutation } from '@apollo/react-hooks';
-import { Form } from 'react-native-form-component';
-import { Input } from '@rneui/themed';
-import { ADD_USER } from './graphql/user';
+import React, { useState } from "react";
+import { ImageBackground, Image, Text, View, StyleSheet } from "react-native";
+import { useMutation } from "@apollo/react-hooks";
+import { Form } from "react-native-form-component";
+import { Input } from "@rneui/themed";
+import { ADD_USER } from "./graphql/user";
 
 export default function RegisterScreen({ navigation }) {
-  const bgImage = require('../../assets/bg_home.jpg');
+  const bgImage = require("../../assets/bg_home.jpg");
 
   const [form, setForm] = useState({
-    email: 'dadazd@gmail.com',
-    lastname: 'dazdazd',
-    firstname: 'qsdqsd',
-    password: 'sdqsd',
+    email: "",
+    lastname: "",
+    firstname: "",
+    password: "",
   });
 
   const handleChangeEmail = (e) => {
@@ -28,17 +28,18 @@ export default function RegisterScreen({ navigation }) {
     setForm({ ...form, lastname: e });
   };
 
-  
   const [addUser, { loading, error }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
-      console.log("DATA", data)
+      console.log("DATA", data);
     },
     onError: (error) => {
-      console.log(error)
-  }});
+      console.log(error);
+    },
+  });
 
   const onSubmit = async () => {
-    await addUser({ variables: form });
+    await addUser({ variables: { user: form } });
+    await navigation.navigate("LoginScreen");
   };
 
   if (loading) return <Text>Chargement en cours</Text>;
@@ -51,26 +52,26 @@ export default function RegisterScreen({ navigation }) {
         resizeMode="cover"
         style={styles.bgImage}
       >
-      <View style={styles.content}>
-        <Image
-          style={styles.Logo}
-          source={require('../../assets/Logo_winterent-light.png')}
-        />
-        <Text style={styles.h1}>Register</Text>
-        <Text style={styles.txtLight}>
-          Déjà inscrit
-          <Text
-            style={styles.span}
-            onPress={() => navigation.navigate('LoginScreen')}
-          >
-            S'identifier
-          </Text>{' '}
-        </Text>
-      </View>
+        <View style={styles.content}>
+          <Image
+            style={styles.Logo}
+            source={require("../../assets/Logo_winterent-light.png")}
+          />
+          <Text style={styles.h1}>Register</Text>
+          <Text style={styles.txtLight}>
+            Déjà inscrit
+            <Text
+              style={styles.span}
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              S'identifier
+            </Text>{" "}
+          </Text>
+        </View>
       </ImageBackground>
       <Form
         buttonText="Valider"
-        buttonStyle={{ backgroundColor: '#0075FF', height: 50, margin: 30 }}
+        buttonStyle={{ backgroundColor: "#0075FF", height: 50, margin: 30 }}
         onButtonPress={onSubmit}
       >
         <Input
@@ -112,32 +113,32 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyItem: 'center',
+    justifyItem: "center",
   },
   content: {
     margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   h1: {
     fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   span: {
     fontSize: 16,
-    color: '#3FAEFF',
+    color: "#3FAEFF",
   },
   txtLight: {
-    color: 'white',
+    color: "white",
   },
   input: {
     height: 40,
     margin: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '0075FF',
+    borderBottomColor: "0075FF",
     padding: 10,
-    backgroundColor: '#EEF3F5',
+    backgroundColor: "#EEF3F5",
   },
   Logo: {
     width: 144,
@@ -145,6 +146,6 @@ const styles = StyleSheet.create({
   },
   bgImage: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 });
