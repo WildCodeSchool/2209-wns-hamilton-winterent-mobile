@@ -27,13 +27,28 @@ export const LOGIN = gql`
 `;
 
 export const USER = gql`
-  query Query($userId: ID!) {
+  query User($userId: UUID!) {
     user(id: $userId) {
       id
       email
       firstname
       lastname
-      password
+      # password
+      gender
+      birthdate
+      phoneNumber
+      role {
+        id
+        role
+      }
+      address {
+        id
+        roadNumber
+        streetName
+        city
+        postalCode
+        country
+      }
     }
-  }
-`;
+  }`
+;

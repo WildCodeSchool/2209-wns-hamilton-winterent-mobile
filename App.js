@@ -9,6 +9,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import LoginScreen from './screens/auth/LoginScreen';
 import Reactotron from 'reactotron-react-native';
 
+
 const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();

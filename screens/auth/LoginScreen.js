@@ -8,8 +8,8 @@ import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation, setUser }) {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: "davy@gmail.com",
+    password: "password",
   });
 
   const handleChangeEmail = (e) => {

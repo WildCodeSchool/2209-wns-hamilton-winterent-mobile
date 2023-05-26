@@ -2,17 +2,13 @@ import { StyleSheet, Text, View } from "react-native";
 import { Avatar, ListItem, Button } from "@rneui/themed";
 import { Card } from "@rneui/themed";
 import { Icon } from "@rneui/base";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { USER } from "./auth/graphql/user";
 import * as SecureStore from "expo-secure-store";
 
-export default function ProfileScreen({ navigation, user }) {
-  const [currentUser, setCurrentUser] = useState({
-    email: "",
-    firstname: "",
-    lastname: "",
-  });
+export default function ProfileScreen({ navigation, user, setUser }) {
+  const [currentUser, setCurrentUser] = useState({});
 
   const [getUserById, { loading }] = useLazyQuery(USER, {
     async onCompleted(data) {
@@ -21,21 +17,25 @@ export default function ProfileScreen({ navigation, user }) {
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           email: data.user.email,
+          address: "3 bourg 55987 bordeaux"
+          //address: data.user.address
         });
+
       } catch (e) {
         alert("Failed to fetch the data to the storage");
       }
     },
-
     onError(error) {
       console.log(error.message);
     },
   });
 
-  const signOut = async () => {
-    SecureStore.deleteItemAsync("user");
-    await navigation.navigate("LoginScreen");
-  };
+//console.log(user)
+
+ const signOut = async () => {
+  await SecureStore.deleteItemAsync('user');
+  setUser("")
+ };
 
   useEffect(() => {
     getUserById({ variables: { userId: user.user.id } });
@@ -73,7 +73,7 @@ export default function ProfileScreen({ navigation, user }) {
                 type="material-community"
                 color="white"
               />
-              <Text style={styles.paragraph}> adresse </Text>
+              <Text style={styles.paragraph}> {currentUser.address} </Text>
             </View>
           </Card>
         </View>

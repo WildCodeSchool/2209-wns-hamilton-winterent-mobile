@@ -9,10 +9,10 @@ export default function RegisterScreen({ navigation }) {
   const bgImage = require("../../assets/bg_home.jpg");
 
   const [form, setForm] = useState({
-    email: "",
-    lastname: "",
-    firstname: "",
-    password: "",
+    email: "gerard@gmail.com",
+    lastname: "gerard",
+    firstname: "coucou",
+    password: "password",
   });
 
   const handleChangeEmail = (e) => {
