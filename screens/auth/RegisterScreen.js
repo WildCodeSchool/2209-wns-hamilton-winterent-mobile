@@ -9,37 +9,47 @@ export default function RegisterScreen({ navigation }) {
   const bgImage = require("../../assets/bg_home.jpg");
 
   const [form, setForm] = useState({
-    email: "gerard@gmail.com",
-    lastname: "gerard",
-    firstname: "coucou",
-    password: "password",
+    email: "",
+    lastname: "",
+    firstname: "",
+    password: "",
+    confirmPassword: ""
   });
+  const [addUser, { loading, error }] = useMutation(ADD_USER);
 
-  const handleChangeEmail = (e) => {
-    setForm({ ...form, email: e });
+  const handleChangeEmail = (email) => {
+    setForm({ ...form, email });
   };
-  const handleChangePassword = (e) => {
-    setForm({ ...form, password: e });
+  const handleChangeLastname = (lastname) => {
+    setForm({ ...form, lastname });
   };
-  const handleChangeFirstname = (e) => {
-    setForm({ ...form, firstname: e });
+  const handleChangeFirstname = (firstname) => {
+    setForm({ ...form, firstname });
   };
-  const handleChangeLastname = (e) => {
-    setForm({ ...form, lastname: e });
+  const handleChangePassword = (password) => {
+    setForm({ ...form, password });
   };
-
-  const [addUser, { loading, error }] = useMutation(ADD_USER, {
-    onCompleted: (data) => {
-      console.log("DATA", data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const handleChangeConfirmPassword = (confirmPassword) => {
+    setForm({ ...form, confirmPassword });
+  };
 
   const onSubmit = async () => {
-    await addUser({ variables: { user: form } });
-    await navigation.navigate("LoginScreen");
+    if (form.email && form.lastname && form.firstname && form.password && form.confirmPassword) {
+      try {
+        console.log("form", form)
+        await addUser({ 
+          variables: {user: form},
+          onCompleted(data) {
+            console.log("Data", data)
+            navigation.navigate("LoginScreen");
+          },
+      });
+      } catch (error) {
+        // Gestion des erreurs lors de l'ajout de l'utilisateur à la base de données
+        console.log("Erreur lors de l'ajout de l'utilisateur :", error);
+      }
+    } else {
+    }
   };
 
   if (loading) return <Text>Chargement en cours</Text>;
@@ -75,18 +85,18 @@ export default function RegisterScreen({ navigation }) {
         onButtonPress={onSubmit}
       >
         <Input
-          label="Firstname"
+          label="Prénom"
           isRequired
-          placeholder="Entrez votre firstname"
-          onChangeText={handleChangeFirstname}
+          placeholder="Entrez votre prénom"
           value={form.firstname}
+          onChangeText={handleChangeFirstname}
         />
         <Input
-          label="Lastname"
+          label="Nom"
           isRequired
-          placeholder="Entrez votre lastname"
-          onChangeText={handleChangeLastname}
+          placeholder="Entrez votre nom"
           value={form.lastname}
+          onChangeText={handleChangeLastname}
         />
         <Input
           label="Email"
@@ -94,16 +104,22 @@ export default function RegisterScreen({ navigation }) {
           placeholder="Entrez votre email"
           value={form.email}
           onChangeText={handleChangeEmail}
-          name="email"
         />
-
         <Input
           label="Password"
           isRequired
           placeholder="Entrez votre password"
           secureTextEntry={true}
-          onChangeText={handleChangePassword}
           value={form.password}
+          onChangeText={handleChangePassword}
+        />
+        <Input
+          label="Confirmation password"
+          isRequired
+          placeholder="Confirmez votre password"
+          secureTextEntry={true}
+          value={form.confirmPassword}
+          onChangeText={handleChangeConfirmPassword}
         />
       </Form>
     </View>
