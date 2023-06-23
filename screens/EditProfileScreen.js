@@ -2,16 +2,42 @@ import { StyleSheet, Text, View } from "react-native";
 import { Input, Avatar } from "@rneui/themed";
 import { Form } from "react-native-form-component";
 import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPDATE_USER, USER } from "./auth/graphql/user";
 
-export default function EditProfileScreen() {
+export default function EditProfileScreen({ navigation, user }) {
+  const [updateUser] = useMutation(UPDATE_USER);
   const [form, setForm] = useState({
+    id: "",
     firstname: "",
     lastname: "",
     email: "",
-    password: "",
   });
-  const handleSubmit = (e) => {
-    console.log(form);
+  const { refetch } = useQuery(USER, {
+    variables: { userId: user.user.id },
+    onCompleted(data) {
+      if (data.user) {
+        setForm({
+          id: data.user.id,
+          firstname: data.user.firstname,
+          lastname: data.user.lastname,
+          email: data.user.email,
+        });
+      }
+    },
+  });
+
+  const handleSubmit = async () => {
+    try {
+      await updateUser({
+        variables: { user: form },
+        onCompleted() {
+          refetch();
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -22,6 +48,7 @@ export default function EditProfileScreen() {
           rounded
           source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
         />
+        <Text>{form.email}</Text>
       </View>
 
       <Form
@@ -36,29 +63,16 @@ export default function EditProfileScreen() {
         <View style={styles.input}>
           <Input
             label="Prénom"
+            value={form.firstname}
             onChangeText={(text) => {
               setForm({ ...form, firstname: text });
             }}
           ></Input>
           <Input
             label="Nom"
+            value={form.lastname}
             onChangeText={(text) => {
               setForm({ ...form, lastname: text });
-            }}
-          ></Input>
-          <Input
-            keyboardType="email-address"
-            label="Email"
-            onChangeText={(text) => {
-              setForm({ ...form, email: text });
-            }}
-          ></Input>
-          <Input
-            keyboardType="visible-password"
-            textContentType="password"
-            label="Mot de passe"
-            onChangeText={(text) => {
-              setForm({ ...form, password: text });
             }}
           ></Input>
         </View>
