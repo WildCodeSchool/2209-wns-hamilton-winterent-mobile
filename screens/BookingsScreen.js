@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, ImageBackground, Text , View, Image } from "react-native";
 import { Avatar } from "@rneui/themed";
 import CardBooking from "./components/cardBooking";
-import { Button } from "@rneui/base";
+import { Button, Icon } from "@rneui/base";
 
 
 export default function BookingsScreen() {
@@ -16,10 +16,19 @@ export default function BookingsScreen() {
       <View style={styles.container}>
         <View style={styles.headerBooking}>
           <View style={styles.row}>
-            <View style={styles.icone}></View>
-            <View>
-              <Text style={styles.stationTitle}>Alpes d'Huez Location</Text>
-              <Text style={styles.shopTitle}>Haute Savoie</Text>
+            <View style={styles.rowLocation}>
+              <View style={styles.iconContainer}>
+                <Icon
+                  style={styles.icone}
+                  name="map-marker-outline"
+                  type="material-community"
+                  color="white"
+                />
+              </View>
+              <View style={styles.location}>
+                <Text style={styles.stationTitle}>Alpes d'Huez Location</Text>
+                <Text style={styles.shopTitle}>Haute Savoie</Text>
+              </View>
             </View>
             <View style={styles.avatarContainer}>
               <Avatar
@@ -57,22 +66,45 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'absolute',
-    width: '100%',
+    width:'100%',
   },
   headerBooking: { 
-    width: '100%',
     padding: 15,
     paddingTop: 50,
-    height: 160,
+    height: 170,
     backgroundColor: '#0F2641',
     marginBottom: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   row:{
-    width: '100%',
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 15,
+  },
+  rowLocation:{
+    flexDirection: 'row',
+  },
+  location: {
+    marginLeft: 20,
+    justifyContent: 'center',
   },
   icone:{
     width: 50,
+  },
+  iconContainer: {
+    backgroundColor: '#657282',
+    borderRadius: 50,
+    justifyContent: 'center',
   },
   stationTitle: {
     color: 'white',
@@ -82,8 +114,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   avatarContainer: {
-    justifyContent: 'flex-end',
-    left: 0,
+    alignItems:"flex-end",
+    marginLeft: 10,
   },
   buttonStyle: {
     marginTop: 10,

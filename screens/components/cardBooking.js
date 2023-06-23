@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
   },
   img: {
     height: 100,
-    width: 70
+    width: 100
   }, 
   detail: {
-    marginLeft: 80,
+    marginLeft: 75,
     color: 'white'
   }
 
