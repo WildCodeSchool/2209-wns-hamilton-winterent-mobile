@@ -23,10 +23,6 @@ export default function LoginScreen({ navigation, setUser }) {
     async onCompleted(data) {
       try {
         await SecureStore.setItemAsync("user", JSON.stringify(data.login));
-        // let test = await SecureStore.getItemAsync('user')
-        // if (test){
-        //   setUser(true)
-        // }
         setUser(data.login);
       } catch (e) {
         alert("Failed to save the data to the storage");
