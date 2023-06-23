@@ -50,5 +50,26 @@ export const USER = gql`
         country
       }
     }
-  }`
-;
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($user: UpdateUserInput!) {
+    updateUser(user: $user) {
+      id
+      firstname
+      lastname
+      # gender
+      # birthdate
+      # phoneNumber
+      # address {
+      #   id
+      #   roadNumber
+      #   streetName
+      #   city
+      #   postalCode
+      #   country
+      # }
+    }
+  }
+`;

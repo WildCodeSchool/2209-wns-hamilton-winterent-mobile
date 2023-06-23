@@ -13,8 +13,9 @@ export default function ProfileStack({ user, setUser }) {
       <Stack.Screen
         name="EditProfileScreen"
         options={{ title: "Edition du profil" }}
-        component={EditProfileScreen}
-      />
+      >
+        {(props) => <EditProfileScreen {...props} user={user} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
