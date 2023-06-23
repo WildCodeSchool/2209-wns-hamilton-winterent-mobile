@@ -44,7 +44,7 @@ export default function App() {
                 <ProfileStack {...props} user={user} setUser={setUser} />
               )}
             </Tab.Screen>
-            <Tab.Screen name="BookingStack" component={BookingStack} />
+            <Tab.Screen name="BookingStack" options={{ headerShown: false }} component={BookingStack} />
           </Tab.Navigator>
         ) : (
           <Stack.Navigator>
