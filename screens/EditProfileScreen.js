@@ -4,7 +4,6 @@ import { Form } from 'react-native-form-component';
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useMutation, useQuery } from '@apollo/client';
-import DatePicker from 'react-native-datepicker';
 import { UPDATE_USER, USER } from './auth/graphql/user';
 
 export default function EditProfileScreen({ user }) {
@@ -89,15 +88,6 @@ export default function EditProfileScreen({ user }) {
               setForm({ ...form, phoneNumber: text });
             }}
           ></Input>
-          <DatePicker
-            label="date naissance"
-            // value={form.birthdate}
-            format="YYYY/MM/DD"
-            mode="date"
-            onChangeText={(text) => {
-              setForm({ ...form, birthdate: text });
-            }}
-          ></DatePicker>
         </View>
       </Form>
     </KeyboardAwareScrollView>
