@@ -8,6 +8,8 @@ import RegisterScreen from './screens/auth/RegisterScreen';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import LoginScreen from './screens/auth/LoginScreen';
 import Reactotron from 'reactotron-react-native';
+import { StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const Stack = createStackNavigator();
@@ -35,16 +37,35 @@ export default function App() {
     <ApolloProvider client={client}>
       <NavigationContainer>
         {user ? (
-          <Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarStyle: { backgroundColor: '#123456', height: 60, paddingBottom: 10 },
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+            
+                if (route.name === "Profile") {
+                  iconName = focused ? "person" : "person-outline";
+                } else if (route.name === "Booking") {
+                  iconName = focused ? "cart" : "cart-outline";
+                } 
+            
+                return <Icon name={iconName} size={size} color={color} />;
+              },
+            })}
+          >
             <Tab.Screen
-              name="ProfileStack"
+              name="Profile"
               options={{ headerShown: false }}
             >
               {(props) => (
                 <ProfileStack {...props} user={user} setUser={setUser} />
               )}
             </Tab.Screen>
-            <Tab.Screen name="BookingStack" options={{ headerShown: false }} component={BookingStack} />
+            <Tab.Screen 
+              name="Booking"
+              options={{ headerShown: false }} 
+              component={BookingStack} 
+            />
           </Tab.Navigator>
         ) : (
           <Stack.Navigator>
@@ -65,11 +86,9 @@ export default function App() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+const styles = StyleSheet.create({
+  containerNav: {
+    flex: 1,
+    backgroundColor: '#0F2641',
+  }
+});
