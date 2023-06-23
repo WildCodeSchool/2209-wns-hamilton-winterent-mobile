@@ -5,17 +5,20 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER, USER } from "./auth/graphql/user";
 
-export default function EditProfileScreen({ user }) {
+export default function EditProfileScreen({ navigation, user }) {
+  const [updateUser] = useMutation(UPDATE_USER);
   const [form, setForm] = useState({
+    id: "",
     firstname: "",
     lastname: "",
     email: "",
   });
-  const {} = useQuery(USER, {
+  const { refetch } = useQuery(USER, {
     variables: { userId: user.user.id },
     onCompleted(data) {
       if (data.user) {
         setForm({
+          id: data.user.id,
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           email: data.user.email,
@@ -24,9 +27,17 @@ export default function EditProfileScreen({ user }) {
     },
   });
 
-  const handleSubmit = (e) => {
-    console.log(form);
-    useMutation(UPDATE_USER, { variables: { user: form } });
+  const handleSubmit = async () => {
+    try {
+      await updateUser({
+        variables: { user: form },
+        onCompleted() {
+          refetch();
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -64,15 +75,6 @@ export default function EditProfileScreen({ user }) {
               setForm({ ...form, lastname: text });
             }}
           ></Input>
-          {/* <Input
-            keyboardType="email-address"
-            label="Email"
-            editable={false}
-            value={form.email}
-            onChangeText={(text) => {
-              setForm({ ...form, email: text });
-            }}
-          ></Input> */}
         </View>
       </Form>
     </View>
