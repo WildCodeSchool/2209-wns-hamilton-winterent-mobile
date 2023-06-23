@@ -8,8 +8,8 @@ import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation, setUser }) {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: "davy@gmail.com",
+    password: "password",
   });
 
   const handleChangeEmail = (e) => {
@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation, setUser }) {
   };
 
   const bgImage = require("../../assets/bg_home.jpg");
-
+if (loading) {return <Text>Chargement en cours</Text>}
   return (
     <>
       <View style={styles.container}>
