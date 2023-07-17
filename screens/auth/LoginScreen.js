@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation, setUser }) {
   };
 
   const bgImage = require("../../assets/bg_home.jpg");
-
+if (loading) {return <Text>Chargement en cours</Text>}
   return (
     <>
       <View style={styles.container}>
