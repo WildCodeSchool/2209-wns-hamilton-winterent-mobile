@@ -1,11 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, ImageBackground, Text , View, Image } from "react-native";
 import { Avatar } from "@rneui/themed";
 import CardBooking from "./components/cardBooking";
 import { Button, Icon } from "@rneui/base";
+import { useQuery } from "@apollo/client";
+import {USER_ORDERS} from "./components/usersQueries";
+import { USER } from "./auth/graphql/user";
 
 
-export default function BookingsScreen() {
+export default function BookingsScreen({ navigation, user}) {
+  const [orders, setOrders] = useState([]);
+
+  useQuery(USER_ORDERS, {
+    variables: { userId: user?.user?.id },
+    onCompleted(data) {
+      const fetchOrders = data.getOrderByUserId;
+
+      //const allOrders = []
+     const allOrders = fetchOrders.map((order) => {
+       return {id: order.id,
+          date: order.date,
+          status: order.status,
+          user: order.user,
+          total: 0,
+          bookings: order.bookings
+        }
+
+      })
+
+      //console.log("update", test)
+
+      const updatedOrders = allOrders.map((order) => ({
+        ...order,
+        total: order.bookings.reduce(
+          (total, booking) => total + booking.price,
+          0
+        ),
+      }
+        ));
+      console.log("updatedOrders", updatedOrders)
+      updatedOrders.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      setOrders(updatedOrders);
+    },
+  });
+  console.log("orders", orders)
 
   return (
    <View style={styles.bookingScreen}>
@@ -44,8 +87,12 @@ export default function BookingsScreen() {
             style={styles.buttonStyle}
           />
         </View>
-        <CardBooking style={styles.cardBooking}/>
-        <CardBooking style={styles.cardBooking}/>
+        {orders.map((order) => (
+          <CardBooking 
+            key={order.id}
+            order={order}
+          />
+        ))}
       </View>
     </View>
   )

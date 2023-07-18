@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const CardBooking = ({ description, date }) => {
+const CardBooking = ({ order }) => {
   return (
     <>
     <View style={styles.container}>
        <Image style={styles.img} source={require('../../assets/ski2.png')}/>
        <View style={styles.detail}>
        <View style={styles.containerDate}>
-        <Text style={styles.date}>{date}Depuis 2 jours</Text>
+        <Text style={styles.date}>Depuis le {order.date}</Text>
         </View>
-        <Text style={styles.description}>{description}Alpine Ski Set (Fusion)</Text>
+        <Text style={styles.description}>Alpine Ski Set (Fusion)</Text>
         <Text style={styles.level}>Intermédiaire - Avancé</Text>
-        <Text style= {styles.price}>€19/Jour</Text>
+        <Text style= {styles.price}>Prix total: {order.total}€</Text>
        </View>
     </View>
     </>

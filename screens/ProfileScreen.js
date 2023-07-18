@@ -12,6 +12,7 @@ export default function ProfileScreen({ navigation, user, setUser }) {
 
   const [getUserById, { loading }] = useLazyQuery(USER, {
     async onCompleted(data) {
+      console.log("data", data)
       try {
         setCurrentUser({
           firstname: data.user.firstname,
@@ -19,6 +20,13 @@ export default function ProfileScreen({ navigation, user, setUser }) {
           email: data.user.email,
           address: "3 bourg 55987 bordeaux"
           //address: data.user.address
+          // address: {
+            //   roadNumber: data.user.address?.roadNumber,
+            //   streetName: data.user.address?.streetName,
+            //   postalCode: data.user.address?.postalCode,
+            //   city: data.user.address?.city,
+            //   country: data.user.address?.country,
+          // },
         });
 
       } catch (e) {
