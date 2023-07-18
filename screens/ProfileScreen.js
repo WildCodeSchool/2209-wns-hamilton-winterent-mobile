@@ -13,20 +13,17 @@ export default function ProfileScreen({ navigation, user, setUser }) {
 
   const [getUserById, { loading }] = useLazyQuery(USER, {
     async onCompleted(data) {
+
       try {
         setCurrentUser({
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           email: data.user.email,
-          address: "3 bourg 55987 bordeaux",
-          //address: data.user.address
-          // address: {
-          //   roadNumber: data.user.address?.roadNumber,
-          //   streetName: data.user.address?.streetName,
-          //   postalCode: data.user.address?.postalCode,
-          //   city: data.user.address?.city,
-          //   country: data.user.address?.country,
-          // },
+          roadNumber: data.user.address?.roadNumber,
+          streetName: data.user.address?.streetName,
+          postalCode: data.user.address?.postalCode,
+          city: data.user.address?.city,
+          country: data.user.address?.country,
         });
       } catch (e) {
         alert("Failed to fetch the data to the storage");
@@ -74,7 +71,7 @@ export default function ProfileScreen({ navigation, user, setUser }) {
                 type="material-community"
                 color="white"
               />
-              <Text style={styles.paragraph}> {currentUser.address} </Text>
+              <Text style={styles.paragraph}>{currentUser.roadNumber} {currentUser.streetName} - {currentUser.city} </Text>
             </View>
           </Card>
         </View>

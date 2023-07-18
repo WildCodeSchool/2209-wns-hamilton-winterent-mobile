@@ -17,9 +17,18 @@ export default function BookingsScreen({ user }) {
     async onCompleted(data) {
       console.log("data", data);
       try {
+
+        const capitalizeFirstLetter = (string) => {
+          if (!string) return ''; 
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        };
+        
+        const firstname = data.user.firstname;
+        const lastname = data.user.lastname;
+
         setCurrentUser({
-          firstname: data.user.firstname,
-          lastname: data.user.lastname,
+          firstname: firstname === firstname.toUpperCase() ? firstname : capitalizeFirstLetter(firstname),
+          lastname: lastname === lastname.toUpperCase() ? lastname : capitalizeFirstLetter(lastname),
           email: data.user.email,
         });
       } catch (e) {
@@ -64,6 +73,7 @@ export default function BookingsScreen({ user }) {
     },
   });
 
+
   return (
     <>
       <View style={styles.bookingScreen}>
@@ -75,19 +85,15 @@ export default function BookingsScreen({ user }) {
           <View style={styles.headerBooking}>
             <View style={styles.row}>
               <View style={styles.rowLocation}>
-                <View style={styles.iconContainer}>
-                  <Icon
-                    style={styles.icone}
-                    name="map-marker-outline"
-                    type="material-community"
-                    color="white"
+                <View style={styles.logoContainer}>
+                  <ImageBackground
+                    style={styles.logo}
+                    source={require("../assets/Logo_winterent-light.png")}
                   />
                 </View>
                 <View style={styles.location}>
-                  <Text style={styles.stationTitle}>Les commandes</Text>
-                  <Text style={styles.shopTitle}>
-                    {currentUser.firstname} {currentUser.lastname}
-                  </Text>
+                  <Text style={styles.stationTitle}>{currentUser.firstname} {currentUser.lastname}</Text>
+                  <Text style={styles.shopTitle}>Vos commandes :</Text>
                 </View>
               </View>
               <View style={styles.avatarContainer}>
@@ -151,17 +157,20 @@ const styles = StyleSheet.create({
   },
   rowLocation: {
     flexDirection: "row",
+    flex:1,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   location: {
-    marginLeft: 20,
+    marginRight: 10,
+    alignItems: "flex-end",
     justifyContent: "center",
   },
-  icone: {
+  logo: {
     width: 50,
+    height: 50,
   },
-  iconContainer: {
-    backgroundColor: "#657282",
-    borderRadius: 50,
+  logoContainer: {
     justifyContent: "center",
   },
   stationTitle: {
