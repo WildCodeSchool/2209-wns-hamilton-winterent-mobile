@@ -2,33 +2,32 @@ import { StyleSheet, Text, View } from "react-native";
 import { Avatar, ListItem, Button } from "@rneui/themed";
 import { Card } from "@rneui/themed";
 import { Icon } from "@rneui/base";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { USER } from "./auth/graphql/user";
 import * as SecureStore from "expo-secure-store";
+import personPlaceholder from "../assets/person_placeholder.jpeg";
 
 export default function ProfileScreen({ navigation, user, setUser }) {
   const [currentUser, setCurrentUser] = useState({});
 
   const [getUserById, { loading }] = useLazyQuery(USER, {
     async onCompleted(data) {
-      console.log("data", data)
       try {
         setCurrentUser({
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           email: data.user.email,
-          address: "3 bourg 55987 bordeaux"
+          address: "3 bourg 55987 bordeaux",
           //address: data.user.address
           // address: {
-            //   roadNumber: data.user.address?.roadNumber,
-            //   streetName: data.user.address?.streetName,
-            //   postalCode: data.user.address?.postalCode,
-            //   city: data.user.address?.city,
-            //   country: data.user.address?.country,
+          //   roadNumber: data.user.address?.roadNumber,
+          //   streetName: data.user.address?.streetName,
+          //   postalCode: data.user.address?.postalCode,
+          //   city: data.user.address?.city,
+          //   country: data.user.address?.country,
           // },
         });
-
       } catch (e) {
         alert("Failed to fetch the data to the storage");
       }
@@ -38,12 +37,10 @@ export default function ProfileScreen({ navigation, user, setUser }) {
     },
   });
 
-//console.log(user)
-
- const signOut = async () => {
-  await SecureStore.deleteItemAsync('user');
-  setUser("")
- };
+  const signOut = async () => {
+    await SecureStore.deleteItemAsync("user");
+    setUser("");
+  };
 
   useEffect(() => {
     getUserById({ variables: { userId: user.user.id } });
@@ -53,11 +50,7 @@ export default function ProfileScreen({ navigation, user, setUser }) {
     <>
       <View style={styles.globalContainer}>
         <View style={styles.photoContainer}>
-          <Avatar
-            size={150}
-            rounded
-            source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-          />
+          <Avatar size={150} rounded source={personPlaceholder} />
           <Text style={styles.paragraph}>
             {currentUser.lastname} {currentUser.firstname}
           </Text>

@@ -4,6 +4,7 @@ import { Form } from "react-native-form-component";
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER, USER } from "./auth/graphql/user";
+import personPlaceholder from "../assets/person_placeholder.jpeg";
 
 export default function EditProfileScreen({ navigation, user }) {
   const [updateUser] = useMutation(UPDATE_USER);
@@ -43,11 +44,7 @@ export default function EditProfileScreen({ navigation, user }) {
   return (
     <View style={styles.container}>
       <View style={styles.picture}>
-        <Avatar
-          size={150}
-          rounded
-          source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-        />
+        <Avatar size={150} rounded source={personPlaceholder} />
         <Text>{form.email}</Text>
       </View>
 

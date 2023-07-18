@@ -8,8 +8,8 @@ import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation, setUser }) {
   const [form, setForm] = useState({
-    email: "neoduo@free.fr",
-    password: "123456.Azerty",
+    email: "test123@gmail.com",
+    password: "@Test12345",
   });
 
   const handleChangeEmail = (e) => {
@@ -60,7 +60,7 @@ export default function LoginScreen({ navigation, setUser }) {
                 onPress={() => navigation.navigate("RegisterScreen")}
               >
                 Créer un compte
-              </Text>{" "}
+              </Text>
               et retouvez vos articles
             </Text>
           </View>
