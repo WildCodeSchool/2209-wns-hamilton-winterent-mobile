@@ -5,24 +5,30 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_USER, USER } from "./auth/graphql/user";
 import personPlaceholder from "../assets/person_placeholder.jpeg";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function EditProfileScreen({ navigation, user }) {
+export default function EditProfileScreen({ user }) {
   const [updateUser] = useMutation(UPDATE_USER);
   const [form, setForm] = useState({
-    id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
+    id: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    phoneNumber: '',
+    birthdate: '',
   });
   const { refetch } = useQuery(USER, {
     variables: { userId: user.user.id },
     onCompleted(data) {
+      console.log(data);
       if (data.user) {
         setForm({
           id: data.user.id,
           firstname: data.user.firstname,
           lastname: data.user.lastname,
           email: data.user.email,
+          phoneNumber: data.user.phoneNumber,
+          birthdate: data.user.birthdate,
         });
       }
     },
@@ -42,7 +48,7 @@ export default function EditProfileScreen({ navigation, user }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.picture}>
         <Avatar size={150} rounded source={personPlaceholder} />
         <Text>{form.email}</Text>
@@ -51,7 +57,7 @@ export default function EditProfileScreen({ navigation, user }) {
       <Form
         buttonText="Sauvegarder"
         buttonStyle={{
-          backgroundColor: "#0075FF",
+          backgroundColor: '#0075FF',
           height: 50,
           margin: 30,
         }}
@@ -72,9 +78,16 @@ export default function EditProfileScreen({ navigation, user }) {
               setForm({ ...form, lastname: text });
             }}
           ></Input>
+          <Input
+            label="Numero téléphone"
+            value={form.phoneNumber}
+            onChangeText={(text) => {
+              setForm({ ...form, phoneNumber: text });
+            }}
+          ></Input>
         </View>
       </Form>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -85,7 +98,7 @@ const styles = StyleSheet.create({
 
   picture: {
     marginTop: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   input: {
