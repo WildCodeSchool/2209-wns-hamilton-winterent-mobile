@@ -60,7 +60,7 @@ if (loading) {return <Text>Chargement en cours</Text>}
                 onPress={() => navigation.navigate("RegisterScreen")}
               >
                 Créer un compte
-              </Text>{" "}
+              </Text>
               et retouvez vos articles
             </Text>
           </View>
