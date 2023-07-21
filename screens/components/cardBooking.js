@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 const CardBooking = ({ order }) => {
+  console.log(order)
   return (
     <>
       <View style={styles.container}>

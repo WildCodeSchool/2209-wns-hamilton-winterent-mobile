@@ -11,7 +11,7 @@ import personPlaceholder from "../assets/person_placeholder.jpeg";
 export default function BookingsScreen({ user }) {
   const [orders, setOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-
+console.log(orders, "order")
   useQuery(USER, {
     variables: { userId: user?.user?.id },
     async onCompleted(data) {

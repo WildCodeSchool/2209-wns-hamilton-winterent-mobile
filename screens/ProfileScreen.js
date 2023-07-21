@@ -71,7 +71,7 @@ export default function ProfileScreen({ navigation, user, setUser }) {
                 type="material-community"
                 color="white"
               />
-              <Text style={styles.paragraph}>{currentUser.roadNumber} {currentUser.streetName} - {currentUser.city} </Text>
+              <Text style={styles.paragraph}>{currentUser.roadNumber} {currentUser.streetName} - {currentUser.postalCode} {currentUser.city} </Text>
             </View>
           </Card>
         </View>
